@@ -1,0 +1,15 @@
+{
+  "name": "router-parser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest parsers/javascript/tests/switch-parser.test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "arcsecond": "^2.0.1",
+    "jest": "^24.9.0"
+  }
+}
