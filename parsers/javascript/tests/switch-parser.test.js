@@ -1,18 +1,27 @@
 const switchParser = require('../switch-parser.js');
-
-class SwitchStructure {
-    constructor(cases, behaviors) {
-        this.cases = cases;
-        this.behaviors = behaviors;
-    }
-}
+const { SwitchStructure } = require('../models/switch');
 
 const tab = '    ';
 const newLine = '\n';
 
-console.log(switchParser);
 test('should return parsed data based on imports', () => {
-    expect(switchParser.run('switch(testVariable){}').result).toEqual(
-        new SwitchStructure('', '')
+    // expect(switchParser.run('switch(testVariable){}').result).toEqual(
+    //     new SwitchStructure('testVariable', [], [])
+    // );
+
+    expect(switchParser.run(`switch(testVariable){
+        case 0:
+            console.log(testVariable);
+            break;
+        default:
+            break;
+    }`).result).toEqual(
+        new SwitchStructure('testVariable', [
+            {
+                case: "0",
+                behavior: `console.log(testVariable);break;`
+            }
+        ], [])
     );
+
 });

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest parsers/javascript/tests/switch-parser.test.js"
+    "test": "jest parsers/javascript/tests/for-of-loop-parser.test.js --verbose",
+    "test-debug": "node --inspect-brk parsers/javascript/tests/for-of-loop-parser.test.js"
   },
   "author": "",
   "license": "ISC",

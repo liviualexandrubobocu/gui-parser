@@ -1,32 +1,45 @@
-const { sequenceOf, char, str, many, letters, withData, coroutine, lookAhead, optionalWhitespace, everythingUntil } = require('arcsecond');
+const { char, str, coroutine, optionalWhitespace, everythingUntil } = require('arcsecond');
 
-const switchStructure = values => {
-    console.log('here ==== ', values);
-    return ({
-    cases: values[3],
-    behaviors: values[3]
-});}
+const { SwitchStructure } = require('./models/switch.js');
+const fs = require('fs');
 
-const switchParser = coroutine(function * (){
-    const switchStatement = yield str('switch');
-    const whiteSpace = yield optionalWhitespace;
-    yield char('(');
-    const testedVariable = yield everythingUntil(char(')'));
+const switchStructure = (values) => new SwitchStructure(values.condition, values.cases, values.behaviors);
 
-    return testedVariable;
+const minify = (str) => str.replace(/\s/g,'');
+
+const switchParser = coroutine(function* () {
+    try {
+        yield str('switch');
+        yield optionalWhitespace;
+        yield char('(');
+        const testedVariable = yield everythingUntil(char(')'));
+        yield optionalWhitespace;
+        yield char(')');
+        yield optionalWhitespace;
+        yield char('{');
+        yield everythingUntil(str('case'));
+        yield str('case');
+        yield optionalWhitespace;
+        const testedCase = yield everythingUntil(char(':'));
+        yield char(':');
+        const testedBehavior = yield everythingUntil(str('default'));
+
+        return {
+            condition: testedVariable,
+            cases: [
+                {
+                    case: testedCase,
+                    behavior: minify(testedBehavior)
+                }
+            ],
+            behaviors: []
+        };
+    } catch(error){
+        fs.writeFileSync('../../errors.txt', JSON.stringify(error));
+        throw new Error(error);
+    }
+    
 }).map(switchStructure);
-
-// const switchParser = sequenceOf([
-//     str('switch'),
-//     optionalWhitespace,
-//     char('('),
-//     optionalWhitespace,
-//     everythingUntil(char(')')),
-//     char(')'),
-//     optionalWhitespace,
-//     char('{'),
-//     caseParsers(everythingUntil(char('}')))
-// ]).map(switchStructure);
 
 
 module.exports = switchParser;
