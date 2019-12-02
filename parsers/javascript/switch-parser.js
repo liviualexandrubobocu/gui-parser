@@ -1,11 +1,10 @@
 const { char, str, coroutine, optionalWhitespace, everythingUntil } = require('arcsecond');
-
-const { SwitchStructure } = require('./models/switch.js');
 const fs = require('fs');
 
-const switchStructure = (values) => new SwitchStructure(values.condition, values.cases, values.behaviors);
+const { SwitchStructure } = require('./models/switch.js');
+const { minify } = require('./helpers/minify');
 
-const minify = (str) => str.replace(/\s/g,'');
+const switchStructure = (values) => new SwitchStructure(values.condition, values.cases, values.behaviors);
 
 const switchParser = coroutine(function* () {
     try {
