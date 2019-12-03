@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest parsers/javascript/tests/do-while-loop-parser.test.js --verbose",
-    "test-debug": "node --inspect-brk parsers/javascript/tests/do-while-loop-parser.test.js"
+    "test": "jest parsers/javascript/tests/ --verbose",
+    "test-debug": "node --inspect-brk parsers/javascript/tests/"
   },
   "author": "",
   "license": "ISC",
