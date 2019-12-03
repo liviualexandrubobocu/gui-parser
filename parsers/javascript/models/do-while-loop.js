@@ -1,8 +1,8 @@
-class DoWhileStructure {
+class DoWhileLoopStructure {
     constructor(condition, statements) {
         this.condition = condition;
         this.statements = statements;
     }
 }
 
-module.exports.DoWhileStructure = DoWhileStructure;
+module.exports.DoWhileLoopStructure = DoWhileLoopStructure;
