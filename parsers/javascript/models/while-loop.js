@@ -1,8 +1,8 @@
-class WhileStructure {
+class WhileLoopStructure {
     constructor(condition, statements) {
         this.condition = condition;
         this.statements = statements;
     }
 }
 
-module.exports.WhileStructure = WhileStructure;
+module.exports.WhileLoopStructure = WhileLoopStructure;
