@@ -33,4 +33,4 @@ test('should return initalization, condition and finalExpression with no stateme
     }, (result, parsingState) => {
         expect(result).toEqual(new ForLoopStructure('let i = 0', 'i < 10', 'i++', ''));
     });
-})
+});

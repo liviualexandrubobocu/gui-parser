@@ -5,10 +5,6 @@ const tab = '    ';
 const newLine = '\n';
 
 test('should return parsed data based on imports', () => {
-    // expect(switchParser.run('switch(testVariable){}').result).toEqual(
-    //     new SwitchStructure('testVariable', [], [])
-    // );
-
     expect(switchParser.run(`switch(testVariable){
         case 0:
             console.log(testVariable);
@@ -24,4 +20,14 @@ test('should return parsed data based on imports', () => {
         ], [])
     );
 
+});
+
+test('should return condition', () => {
+    switchParser.fork('switch(testVariable){}', (error, parsingState) => {
+        const e = new Error(error);
+        e.parsingState = parsingState;
+        throw e;
+    }, (result, parsingState) => {
+        expect(result).toEqual(new SwitchStructure('testVariable', [], []));
+    });
 });

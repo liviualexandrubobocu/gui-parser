@@ -6,7 +6,7 @@ test('should get condition from empty while loop statement', () => {
         const e = new Error(error);
         e.parsingState = parsingState;
         throw e;
-    }, (result, parsingState) => {
+    }, (result) => {
         expect(result).toEqual(new WhileLoopStructure('condition', ''));
     });
 });
