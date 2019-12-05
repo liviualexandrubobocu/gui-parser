@@ -6,7 +6,7 @@ const forLoopStructure = (obj) => new ForLoopStructure(obj.initialization, obj.c
 
 
 const forLoopParser = coroutine(function* () {
-    let statements = '';
+    let statements = [];
 
     yield str('for');
     yield optionalWhitespace;
@@ -23,11 +23,20 @@ const forLoopParser = coroutine(function* () {
     const wantedString = yield lookAhead(possibly(everythingUntil(char(';'))));
     if(wantedString !== null && minify(wantedString) === ''){ 
         yield char(';');
-        statements = '';
     } else {
         yield char('{');
         yield optionalWhitespace;
-        statements = yield everythingUntil(char('}'));
+        const searchForRecursion = yield lookAhead(possibly(str('for')));
+        if(searchForRecursion !== null){
+            const statementsBeforeRecursion = yield everythingUntil(str('for'));
+            statements.push(minify(statementsBeforeRecursion));
+
+            let recursiveStrParser = yield everythingUntil(char('}'));
+            recursiveStrParser += '}';
+
+            statements.push({ descendant: forLoopParser.run(recursiveStrParser).result });
+        }
+        statements.push(minify(yield everythingUntil(char('}'))));
         yield(char('}'));
     }
     
@@ -35,7 +44,7 @@ const forLoopParser = coroutine(function* () {
         initialization: initialization,
         condition: condition,
         finalStatement: finalStatement,
-        statements: minify(statements)
+        statements: statements
     };
 }).map(forLoopStructure);
 
